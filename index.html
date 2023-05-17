@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Query convert</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="flex flex-col items-center gap-12 p-24">
+    <h1 class="text-2xl text-blue-500 font-bold">Conversor de query</h1>
+    <p class="text-blue-400">
+        Conterte querys do protheus para o padrão do banco de dados
+    </p>
+    <div class="flex flex-col w-full">
+        <div class="flex flex-row gap-4 w-full">
+            <div class="flex flex-1 flex-col">
+                <label for="query">Input Query</label>
+                <textarea class="border" name="input" id="input" cols="30" rows="10"></textarea>
+            </div>
+            <div class="flex flex-1 flex-col">
+                <label for="query">Query result</label>
+                <textarea class="border" name="output" id="output" cols="30" rows="10"></textarea>
+            </div>
+        </div>
+        <div class="mt-4">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onclick="onConvert()">Convert</button>
+        </div>
+
+        <footer class="fixed bottom-0 right-0 p-4">
+            <a href="" class="text-blue-500">Make with ❤️ by Frankllin</a>
+
+            </a>
+
+</body>
+<script>
+    // Sequence of 3 letters followed by 3 digits
+    const pattern = /([A-Z]{3})(\d{3})/gi
+    const prefix = "protheus."
+
+    const input = `SELECT zam_cep FROM ZAM030`
+
+    function formatPattern(str) {
+        // replace all occurence with prefix
+        return str.replace(pattern, prefix + "$&")
+    }
+
+    function onConvert() {
+
+        const input = document.getElementById("input").value
+        console.log(input)
+        console.log(formatPattern(input))
+        const output = formatPattern(input)
+        document.getElementById("output").value = output
+    }
+
+</script>
+
+</html>
