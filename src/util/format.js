@@ -24,7 +24,6 @@ order by 2 desc
 export function parseExpression(str = "", customVariables, tablesInfo) {
     let errors = [];
     const posfix = "030";
-    console.log("tablesInfo", tablesInfo)
     const expressions = [
         {
             pattern: /%notdel%/g,
@@ -35,12 +34,10 @@ export function parseExpression(str = "", customVariables, tablesInfo) {
             pattern: /%Table:([a-z]{1}[A-Z0-1]{2})%/gi,
             value: "$1" + posfix,
             handle: (match) => {
-                console.log(tablesInfo)
                 const table = tablesInfo.find(
                     (table) => table.name === match[1]
                 );
 
-                console.log(table)
                 return table?.name ? table.name + table?.posfix : match[0];
             },
         },
@@ -65,8 +62,6 @@ export function parseExpression(str = "", customVariables, tablesInfo) {
                 );
 
                 if (find) {
-                    console.log("find", find)
-                    console.log("handle", find.handle(match))
                     return find.handle(match);
                 }
 

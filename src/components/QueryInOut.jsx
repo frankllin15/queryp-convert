@@ -1,13 +1,13 @@
 import { useState } from "preact/hooks";
 import { useGlobalContext } from "../context/GlobalProvider";
 import { addPrefix, parseExpression } from "../util/format";
+import { Button } from "./common/Button";
 
 export const QueryInOut = () => {
     const { state, setOptions, setErrors } = useGlobalContext();
     const [input, setInput] = useState("");
     const [output, setOutput] = useState("");
 
-    console.log(state);
 
     const handleCahngeOptions = (e) => {
         setOptions({ ...state.options, [e.target.name]: e.target.checked });
@@ -84,13 +84,11 @@ export const QueryInOut = () => {
                         <label for="option3">Prefixo</label>
                     </div>
 
-                    <button
+                    <Button
                         onClick={handleConvert}
-                        id="convert"
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    >
+                        >
                         Converter
-                    </button>
+                    </Button>
                 </div>
                 <div class="flex flex-1 flex-col relative">
                     <label class="font-bold" for="query">

@@ -2,7 +2,7 @@ import { useState } from "preact/hooks";
 import "./app.css";
 import { Header } from "./components/layout/Header";
 import { Footer } from "./components/layout/Footer";
-import { AsideParams } from "./components/layout/AsideParams";
+import { AsideParams } from "./components/AsideParams";
 import { QueryInOut } from "./components/QueryInOut";
 import { AsideTableMenu } from "./components/AsideTableMenu";
 import { GlobalProvider } from "./context/GlobalProvider";

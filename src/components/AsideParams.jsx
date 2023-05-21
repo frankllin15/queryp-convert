@@ -1,4 +1,5 @@
-import { useGlobalContext } from "../../context/GlobalProvider";
+import { useGlobalContext } from "../context/GlobalProvider";
+import { Button } from "./common/Button";
 
 export const AsideParams = () => {
     const {
@@ -100,13 +101,11 @@ export const AsideParams = () => {
                         name="value"
                         className="border"
                     ></input>
-                    <button
+                    <Button
                         type="submit"
-                        id="add-variables"
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded text-xs"
                     >
                         Adicionar
-                    </button>
+                    </Button>
                 </div>
                 <ul className="flex flex-col gap-2">
                     {variables.map((variable) => {
@@ -116,13 +115,13 @@ export const AsideParams = () => {
                                     {variable.name} = {variable.value}
                                 </span>
 
-                                <button
+                                <Button
                                     onClick={handleRemoveVariable}
                                     name={variable.name}
-                                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-xs"
-                                >
+                                variant="danger"
+                               >
                                     x
-                                </button>
+                                </Button>
                             </li>
                         );
                     })}
