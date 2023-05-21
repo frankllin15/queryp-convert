@@ -108,10 +108,15 @@ const GlobalProvider = ({ children }) => {
     useEffect(() => {
         const storedTables = localStorage.getItem("tables");
         const storedOptions = localStorage.getItem("options");
+        const storedVariables = localStorage.getItem("variables");
 
         if (storedTables) {
             setTables(JSON.parse(storedTables));
             localStorage.setItem("tables", storedTables); // Atualiza o localStorage aqui
+        }
+
+        if (storedVariables) {
+            setVariables(JSON.parse(storedVariables));
         }
 
         if (storedOptions) {

@@ -37,11 +37,11 @@ export const AsideParams = () => {
         e.target.value.value = "";
     };
 
-    const handleRemoveVariable = (e) => {
+    const handleRemoveVariable = (name) => {
         let newVariables = [...variables];
 
         newVariables = newVariables.filter((variable) => {
-            return variable.name !== e.target.name;
+            return variable.name !== name;
         });
 
         setVariables(newVariables);
@@ -50,12 +50,15 @@ export const AsideParams = () => {
     return (
         <aside className="flex flex-col w-full h-full gap-4 text-sm pt-6">
             <div className="flex  flex-col border rounded-md p-2">
-                <label className="font-bold text-center text-blue-500 mb-2" for="query">
+                <label
+                    className="font-bold text-center text-blue-500 mb-2"
+                    for="query"
+                >
                     Parâmetros
                 </label>
                 <div className="mb-3 flex flex-col">
                     <label className="font-bold" for="query">
-                        Prefixo
+                        Prefixo:
                     </label>
                     <input
                         onChange={(e) =>
@@ -85,7 +88,10 @@ export const AsideParams = () => {
                 onSubmit={handleAddVariable}
                 className="flex flex-col  border rounded-md p-2 gap-2"
             >
-                <label className="font-bold text-center text-blue-500 mb-2" for="query">
+                <label
+                    className="font-bold text-center text-blue-500 mb-2"
+                    for="query"
+                >
                     Variáveis
                 </label>
                 <div className="flex flex-col gap-2 ">
@@ -101,11 +107,7 @@ export const AsideParams = () => {
                         name="value"
                         className="border"
                     ></input>
-                    <Button
-                        type="submit"
-                    >
-                        Adicionar
-                    </Button>
+                    <Button type="submit">Adicionar</Button>
                 </div>
                 <ul className="flex flex-col gap-2">
                     {variables.map((variable) => {
@@ -116,10 +118,10 @@ export const AsideParams = () => {
                                 </span>
 
                                 <Button
-                                    onClick={handleRemoveVariable}
+                                    onClick={() => handleRemoveVariable(variable.name)}
                                     name={variable.name}
-                                variant="danger"
-                               >
+                                    variant="danger"
+                                >
                                     x
                                 </Button>
                             </li>
@@ -128,7 +130,10 @@ export const AsideParams = () => {
                 </ul>
             </form>
             <div className="flex flex-col  border rounded-md p-2 gap-2">
-                <label className="font-bold text-center text-blue-500 mb-2" for="query">
+                <label
+                    className="font-bold text-center text-blue-500 mb-2"
+                    for="query"
+                >
                     Log
                 </label>
 
