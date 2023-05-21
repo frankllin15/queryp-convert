@@ -1,4 +1,10 @@
-import { useEffect, useRef, useState } from "preact/hooks";
+import {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from "preact/hooks";
 import { useGlobalContext } from "../context/GlobalProvider";
 import { Button } from "./common/Button";
 
@@ -8,10 +14,14 @@ export const AsideTableMenu = () => {
         setTables,
     } = useGlobalContext();
 
-    const [searchQuery, setSearchQuery] = useState("");
+    const [searchQuery, setSearchQuery] = useState(null);
     const [searchResults, setSearchResults] = useState([]);
 
-    const [activeSearch, setActiveSearch] = useState(true);
+    const [activeSearch, setActiveSearch] = useState(false);
+
+    const tablesToRender = useMemo(() => {
+        return activeSearch && searchQuery ? searchResults : tables;
+    }, [activeSearch, searchResults, tables]);
 
     const searchRef = useRef(null);
     const handleAddTable = (e) => {
@@ -45,6 +55,7 @@ export const AsideTableMenu = () => {
         e.target.filial.value = "";
     };
 
+
     const handleRemoveTable = (name) => {
         let newTables = [...tables];
 
@@ -55,55 +66,68 @@ export const AsideTableMenu = () => {
         setTables(newTables);
     };
 
-    const handleSearch = (query) => {
-     
-      
-        let newSearchResults = tables.filter((table) => {
-            return table.name
-                .toUpperCase()
-                .includes(query?.toUpperCase());
-        });
+    const handleSearch = useCallback(
+        (query) => {
+            let newSearchResults = tables.filter((table) => {
+                return table.name.toUpperCase().includes(query?.toUpperCase());
+            });
 
-        setSearchResults(newSearchResults);
-    }
+            setSearchResults(newSearchResults);
+        },
+
+        [tables]
+    );
 
     const handleToggleSearch = () => {
-        
         setActiveSearch(!activeSearch);
         if (activeSearch) {
             searchRef.current.value = "";
-
         } else {
             searchRef.current.focus();
         }
-    }
+    };
 
     useEffect(() => {
-
-        handleSearch(searchQuery)
-    }, [searchQuery])
-
+        handleSearch(searchQuery);
+    }, [searchQuery]);
 
     return (
         <aside class="flex flex-col bg-red-00 h-[calc(100vh-100px)] border rounded-md p-2">
-            <div class="flex  flex-1 flex-col">
-                <div className="flex items-center justify-between py-2 overflow-hidden">
-
-                <label class={`font-bold text-center mb-2 text-blue-500 ${activeSearch ? "w-0" : ""}`} for="query">
-                    Tabelas
-                </label>
-                <input value={searchQuery} onInput={(e) => setSearchQuery(e.target.value)} className={` transition-all ease-in-out ${!activeSearch ? "w-0 p-0 border-0":"w-48"}`} onBlur={handleToggleSearch} ref={searchRef} placeholder="Pesquisar">
-
-                </input>
-                <button onClick={handleToggleSearch} className={ `border rounded-md py-1 px-2 text-sm bg-blue-500 hover:bg-blue-700 text-white transition-all duration-300 ease-in-out ${activeSearch ? "hidden": ""}`}>Pesquisar</button>
-
-
+            <div class="flex  flex-1 flex-col overflow-y-auto no-scrollbar">
+                <div className="flex items-center justify-between py-2 ">
+                    <label
+                        class={`font-bold text-center mb-2 text-blue-500 ${
+                            activeSearch ? "w-0" : ""
+                        }`}
+                        for="query"
+                    >
+                        Tabelas
+                    </label>
+                    <input
+                        value={searchQuery}
+                        onInput={(e) => setSearchQuery(e.target.value)}
+                        className={` transition-all ease-in-out ${
+                            !activeSearch ? "w-0 p-0 border-0" : "w-48"
+                        }`}
+                        onBlur={handleToggleSearch}
+                        ref={searchRef}
+                        placeholder="Pesquisar"
+                    ></input>
+                    <button
+                        onClick={handleToggleSearch}
+                        className={`border rounded-md py-1 px-2 text-sm bg-blue-500 hover:bg-blue-700 text-white transition-all duration-300 ease-in-out ${
+                            activeSearch ? "hidden" : ""
+                        }`}
+                    >
+                        Pesquisar
+                    </button>
                 </div>
-                
-                <div class="flex flex-col gap-2">
-                    {(searchResults || tables).map((table) => {
+
+                <div class="flex flex-col gap-2 ">
+                    {tablesToRender.map((table) => {
                         return (
                             <TableItem
+                                key={table.name}
                                 onRemove={handleRemoveTable}
                                 name={table.name}
                                 posfix={table.posfix}
@@ -180,7 +204,11 @@ const TableItem = ({ name, posfix, filial, onRemove }) => {
         <details class="border rounded-md p-2">
             <summary class="font-bold flex justify-between p-2">
                 <span>{name}</span>
-                <Button title="Remover" variant="danger" onClick={() => onRemove(name)}>
+                <Button
+                    title="Remover"
+                    variant="danger"
+                    onClick={() => onRemove(name)}
+                >
                     X
                 </Button>
             </summary>

@@ -1,28 +1,28 @@
 import { createContext } from "preact";
-import { useContext, useReducer } from "preact/hooks";
+import { useContext, useEffect, useReducer } from "preact/hooks";
 
 const GlobalContext = createContext();
 
 const initialState = {
     query: "",
-    tables: [{
-        name: "SA1",
-        filial: "01",
-        posfix: "030"
-    },
-    {
-        name: "SE1",
-        filial: "01",
-        posfix: "030"
-    }
-],
+    tables: [
+        {
+            name: "SA1",
+            filial: "01",
+            posfix: "030",
+        },
+        {
+            name: "SE1",
+            filial: "01",
+            posfix: "030",
+        },
+    ],
     variables: [],
     options: {
         parseExp: true,
         indent: true,
         prefix: "PROTHEUS",
         addPrefix: true,
-
     },
     errors: [],
 };
@@ -32,8 +32,10 @@ const reducer = (state, action) => {
         case "SET_QUERY":
             return { ...state, query: action.payload };
         case "SET_TABLES":
+            localStorage.setItem("tables", JSON.stringify(action.payload));
             return { ...state, tables: action.payload };
         case "SET_VARIABLES":
+            localStorage.setItem("variables", JSON.stringify(action.payload));
             return { ...state, variables: action.payload };
         case "SET_OPTIONS":
             return { ...state, options: action.payload };
@@ -67,9 +69,30 @@ const GlobalProvider = ({ children }) => {
         dispatch({ type: "SET_ERRORS", payload: errors });
     };
 
+    useEffect(() => {
+        const storedTables = localStorage.getItem("tables");
+        const storedOptions = localStorage.getItem("options");
+
+        if (storedTables) {
+            setTables(JSON.parse(storedTables));
+            localStorage.setItem("tables", storedTables); // Atualiza o localStorage aqui
+        }
+
+        if (storedOptions) {
+            setOptions(JSON.parse(storedOptions));
+        }
+    }, []);
+
     return (
         <GlobalContext.Provider
-            value={{ state, setQuery, setTables, setVariables, setOptions, setErrors }}
+            value={{
+                state,
+                setQuery,
+                setTables,
+                setVariables,
+                setOptions,
+                setErrors,
+            }}
         >
             {children}
         </GlobalContext.Provider>

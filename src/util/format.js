@@ -90,37 +90,5 @@ export function parseExpression(str = "", customVariables, tablesInfo) {
     return [parsedQuery, errors];
 }
 
-function onConvert() {
 
-    const input = document.getElementById("input").value;
-
-    let [parsedQuery, errors] = parseExpression(input);
-
-    handleErros(errors);
-
-    let output = addPrefix(parsedQuery);
-
-    // output = format(output, {
-    //     language: "mysql",
-    //     tabWidth: 4,
-    //     keywordCase: "upper",
-    //     linesBetweenQueries: 2,
-        
-    // });
-
-    document.getElementById("output").value = output;
-}
-
-function handleErros(erros) {
-    const errorElement = document.getElementById("errors");
-
-    if (erros.length) {
-        errorElement.innerHTML = erros
-            .map((error) => `<li>${error.message}</li>`)
-            .join("");
-        errorElement.classList.remove("hidden");
-    } else {
-        errorElement.classList.add("hidden");
-    }
-}
 
