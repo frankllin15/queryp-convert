@@ -68,7 +68,7 @@ export const AsideParams = () => {
                         className="border"
                     ></input>
                 </div>
-                <div className="flex flex-col">
+                {/* <div className="flex flex-col">
                     <label className="font-bold" for="query">
                         Empresa
                     </label>
@@ -79,7 +79,7 @@ export const AsideParams = () => {
                         value="01"
                         className="border"
                     ></input>
-                </div>
+                </div> */}
             </div>
             <form
                 onSubmit={handleAddVariable}
