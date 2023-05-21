@@ -12,10 +12,46 @@ const initialState = {
             posfix: "030",
         },
         {
+            name: "ZAM",
+            filial: "01",
+            posfix: "030",
+        },
+        {
+            name: "SEO",
+            filial: "01",
+            posfix: "030",
+        },
+        {
+            name: "ZZG",
+            filial: "01",
+            posfix: "030",
+        },
+        {
+            name: "ZCM",
+            filial: "01",
+            posfix: "030",
+        },
+        {
             name: "SE1",
             filial: "01",
             posfix: "030",
         },
+        {
+            name: "SE2",
+            filial: "01",
+            posfix: "030",
+        },
+        {
+            name: "SL1",
+            filial: "01",
+            posfix: "030",
+        },
+        {
+            name: "SL2",
+            filial: "01",
+            posfix: "030",
+        },
+        
     ],
     variables: [],
     options: {
