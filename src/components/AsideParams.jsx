@@ -50,7 +50,7 @@ export const AsideParams = () => {
     return (
         <aside className="flex flex-col w-full h-full gap-4 text-sm pt-6">
             <div className="flex  flex-col border rounded-md p-2">
-                <label className="font-bold text-center mb-2" for="query">
+                <label className="font-bold text-center text-blue-500 mb-2" for="query">
                     Parâmetros
                 </label>
                 <div className="mb-3 flex flex-col">
@@ -85,7 +85,7 @@ export const AsideParams = () => {
                 onSubmit={handleAddVariable}
                 className="flex flex-col  border rounded-md p-2 gap-2"
             >
-                <label className="font-bold text-center mb-2" for="query">
+                <label className="font-bold text-center text-blue-500 mb-2" for="query">
                     Variáveis
                 </label>
                 <div className="flex flex-col gap-2 ">
@@ -128,7 +128,7 @@ export const AsideParams = () => {
                 </ul>
             </form>
             <div className="flex flex-col  border rounded-md p-2 gap-2">
-                <label className="font-bold text-center mb-2" for="query">
+                <label className="font-bold text-center text-blue-500 mb-2" for="query">
                     Log
                 </label>
 
