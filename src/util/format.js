@@ -1,35 +1,19 @@
-import { format } from "sql-formatter";
-import { customVariables } from "./main.js";
+// import { format } from "sql-formatter";
 
 
-const tablesInfo = [
-    {
-        name: "ZAM",
-        filial: '"01"',
-        posfix: "050",
-    },
-    {
-        name: "SA1",
-        filial: '"02"',
-        posfix: "030",
-    },
-    {
-        name: "SE1",
-        filial: '"03"',
-        posfix: "030",
-    },
-];
-function addPreFix(str) {
-    const prefix = "PROTHEUS.";
+
+export function addPrefix(str, prefix = "") {
+
     // replace all occurence with prefix
 
-    return str.replace(/([a-z]{1}[A-Z0-1]{2})(\d{3})/gi, prefix + "$&");
+    return str.replace(/([a-z]{1}[A-Z0-1]{2})(\d{3})/gi, prefix + "." + "$&");
 }
 const query = `
 Select 	se1.e1_num as numeracao,
 se1.e1_parcela as parcela
 from %Table:SE1% se1
 where se1.e1_filial = %xFilial:SE1%
+    INNER JOIN %Table:SE1% se2 ON se2.e1_num = se1.e1_num
   and se1.e1_num = %Exp:cDoc%
   and se1.e1_tipo = 'DP'
   and se1.%notdel%
@@ -37,9 +21,10 @@ order by 2 desc
 
 `;
 
-function parseExpression(str = "") {
+export function parseExpression(str = "", customVariables, tablesInfo) {
     let errors = [];
     const posfix = "030";
+    console.log("tablesInfo", tablesInfo)
     const expressions = [
         {
             pattern: /%notdel%/g,
@@ -50,9 +35,12 @@ function parseExpression(str = "") {
             pattern: /%Table:([a-z]{1}[A-Z0-1]{2})%/gi,
             value: "$1" + posfix,
             handle: (match) => {
+                console.log(tablesInfo)
                 const table = tablesInfo.find(
                     (table) => table.name === match[1]
                 );
+
+                console.log(table)
                 return table?.name ? table.name + table?.posfix : match[0];
             },
         },
@@ -63,7 +51,7 @@ function parseExpression(str = "") {
                 const table = tablesInfo.find(
                     (table) => table.name === match[1]
                 );
-                return table?.filial || match[0];
+                return table?.filial ? `'${table.filial}'` : match[0];
             },
         },
         {
@@ -77,11 +65,13 @@ function parseExpression(str = "") {
                 );
 
                 if (find) {
+                    console.log("find", find)
+                    console.log("handle", find.handle(match))
                     return find.handle(match);
                 }
 
                 errors.push({
-                    message: `Variável ${varName} não encontrada. Adicione no dicionário de expressões.`,
+                    message: `Variável ${varName} não encontrada.`,
                     expression,
                 });
 
@@ -113,7 +103,7 @@ function onConvert() {
 
     handleErros(errors);
 
-    let output = addPreFix(parsedQuery);
+    let output = addPrefix(parsedQuery);
 
     // output = format(output, {
     //     language: "mysql",
@@ -139,4 +129,3 @@ function handleErros(erros) {
     }
 }
 
-document.getElementById("convert").addEventListener("click", onConvert);

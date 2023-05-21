@@ -1,121 +1,13 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QueryP</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="/global.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,500&display=swap"
-        rel="stylesheet">
-</head>
-
-<body class="">
-
-    <header class="flex justify-between items-center px-8 py-4 shadow-sm">
-
-        <div class="flex items-end gap-4">
-            <h1 class="text-2xl text-blue-500 font-bold inline-block">Conversor de query</h1>
-            <p class="text-blue-500 underline decoration-dashed underline-offset-4">
-                Converte queries do protheus para o formato do SQL
-            </p>
-        </div>
-        <div>
-            <a href="https://github.com/frankllin15/queryp-convert/issues" target="_blank" class="text-blue-500 font-semibold">
-                Sugerir melhoria
-            </a>
-        </div>
-    </header>
-
-    <div class="w-full grid grid-cols-[1fr_minmax(200px,300px)] px-8 py-4 gap-2">
-
-        <main class="flex flex-col w-full ">
-            <div class="flex flex-1 flex-col gap-4 w-full">
-                <div class="flex flex-1 flex-col">
-                    <label class="font-bold" for="query">Input Query</label>
-                    <textarea spellCheck="false" class="border rounded-md px-2 py-1" name="input" id="input" cols="30"
-                        rows="10"></textarea>
-                </div>
-                <div class="flex items-center justify-between border rounded-md p-3 text-sm">
-                    <!-- Options -->
-                    <div class="flex flex-row items-center gap-4">
-                        <input type="checkbox" name="parse-exp" id="parse-exp" checked>
-                        <label for="option1">Interpretar expressões</label>
-
-                        <input type="checkbox" name="indent" id="indent" checked>
-                        <label for="option2">Indentar</label>
-
-                        <input type="checkbox" name="prefix" id="" checked>
-                        <label for="option3">Prefixo</label>
-                    </div>
-
-                    <button id="convert"
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Converter</button>
-                </div>
-                <div class="flex flex-1 flex-col">
-                    <label class="font-bold" for="query">Query result</label>
-                    <textarea class="border rounded-md px-2 py-1" name="output" id="output" cols="30"
-                        rows="10"></textarea>
-                </div>
-            </div>
-
-            <!-- Erros -->
-            <div class="mt-4">
-                <ul class="text-red-600" id="errors">
-
-                </ul>
-            </div>
-        </main>
-        <aside class="w-full h-full  text-sm pt-6">
-            <div class="flex flex-col gap-6">
-                <div class="flex  flex-1 flex-col border rounded-md p-2">
-                    <label class="font-bold text-center mb-2" for="query">Parâmetros</label>
-                    <div class="mb-3">
-                        <label class="font-bold" for="query">Prefixo</label>
-                        <input type="text" name="prefix" id="prefix" value="Protheus" class="border">
-                    </div>
-                    <div>
-
-                        <label class="font-bold" for="query">Empresa</label>
-                        <input type="text" name="company" id="company" value="01" class="border">
-                    </div>
-                </div>
-                <div class="flex flex-col flex-1 border rounded-md p-2 gap-2">
-                    <label class="font-bold text-center mb-2" for="query">Variáveis</label>
-                    <div class="flex flex-row gap-2 items-center">
-                        <input placeholder="nome" type="text" name="variable-name-input" id="variable-name-input"
-                            class="border">
-                        <input placeholder="valor" type="text" name="variable-value-input" id="variable-value-input"
-                            class="border">
-                        <button id="add-variables"
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded text-xs">Adicionar</button>
-                    </div>
-                    <textarea disabled spellCheck="false" class="border px-2 py-1" name="variables" id="variables"
-                        cols="30" rows="10"></textarea>
-
-                </div>
-            </div>
-        </aside>
-    </div>
-
-
-
-    <footer class="fixed bg-zinc-800 rounded-tl-md bottom-0 right-0 py-1 px-2">
-        <a href="https://github.com/frankllin15" class="text-white">Make with ❤️ by <span
-                class="text-blue-500">Frankllin</span></a>
-
-
-    </footer>
-</body>
-
-
-
-<script type="module" src="/main.js"></script>
-<script type="module" src="/format.js"></script>
-
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + Preact</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
