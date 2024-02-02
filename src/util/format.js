@@ -1,12 +1,8 @@
-// import { format } from "sql-formatter";
-
-
 
 export function addPrefix(str, prefix = "") {
-
     // replace all occurence with prefix
 
-    return str.replace(/([a-z]{1}[A-Z0-1]{2})(\d{3})/gi, prefix + "." + "$&");
+    return str.replace(/([a-z]{1}[A-Z0-9]{2})(\d{3})/gi, prefix + "." + "$&");
 }
 const query = `
 Select 	se1.e1_num as numeracao,
@@ -24,6 +20,7 @@ order by 2 desc
 export function parseExpression(str = "", customVariables, tablesInfo) {
     let errors = [];
     const posfix = "030";
+    const defaultPrefix = "PROTHEUS.";
     const expressions = [
         {
             pattern: /%notdel%/g,
@@ -31,31 +28,45 @@ export function parseExpression(str = "", customVariables, tablesInfo) {
             handle: () => "d_e_l_e_t_ = ' '",
         },
         {
-            pattern: /%Table:([a-z]{1}[A-Z0-1]{2})%/gi,
+            pattern: /%Table:([a-z]{1}[A-Z0-9]{2})%/gi,
             value: "$1" + posfix,
             handle: (match) => {
                 const table = tablesInfo.find(
-                    (table) => table.name === match[1]
+                    (table) =>
+                        table.name?.toLowerCase() === match[1]?.toLowerCase()
                 );
 
+                if (!table) {
+                    errors.push({
+                        message: `Tabela ${match[1]} não encontrada.`,
+                        expression: match[0],
+                    });
+                }
                 return table?.name ? table.name + table?.posfix : match[0];
             },
         },
         {
-            pattern: /%xFilial:([a-z]{1}[A-Z0-1]{2})%/gi,
+            pattern: /%xFilial:([a-z]{1}[A-Z0-9]{2})%/gi,
 
             handle: (match) => {
                 const table = tablesInfo.find(
                     (table) => table.name === match[1]
                 );
+
+                if (!table) {
+                    errors.push({
+                        message: `Tabela ${match[1]} não encontrada.`,
+                        expression: match[0],
+                    });
+                }
+
                 return table?.filial ? `'${table.filial}'` : match[0];
             },
         },
         {
             pattern: /%Exp:(\w+)%/gi,
             handle: (match) => {
-                const [expression, varName] = match
-               
+                const [expression, varName] = match;
 
                 const find = customVariables.find(
                     (exp) => exp.name === varName
@@ -89,6 +100,3 @@ export function parseExpression(str = "", customVariables, tablesInfo) {
 
     return [parsedQuery, errors];
 }
-
-
-
